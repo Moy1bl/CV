@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500&display=swap">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <title>CV Yoana Monov</title>
     <style>
         /* Global Styles */
@@ -149,7 +153,8 @@
             border-radius: 50%;
             width: 150px;
             height: 150px;
-            margin: 20px 0;
+
+            margin-top: 40px;
         }
 
         header {
@@ -171,16 +176,16 @@
             /* Improved readability */
         }
 
-          /* For the highlight class, use a more subtle color to differentiate but not distract */
-          .highlight {
-            color: #50a3d9; 
+        /* For the highlight class, use a more subtle color to differentiate but not distract */
+        .highlight {
+            color: #50a3d9;
         }
 
         /* Remove underline from links inside the list */
         ul li a {
             text-decoration: none;
         }
-        
+
         /* Subtle hover effect for items with class highlight */
         .highlight:hover {
             text-decoration: underline;
@@ -188,16 +193,114 @@
 
         /* Button-style for contact links for emphasis */
         #contact a {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #50a3d9;
-            color: #fff;
-            border-radius: 8px;
+            display: inline;
+            /* Change from inline-block to inline */
+            padding: 0;
+            /* Remove padding */
+            background-color: transparent;
+            /* No background color */
+            color: white;
+            /* Match your highlight color or any other desired color */
+            border-radius: 0;
+            /* Remove border-radius */
             margin-top: 10px;
+            text-decoration: underline;
+            /* Optional: Add underline for clarity */
         }
+
 
         #contact a:hover {
             background-color: #0077cc;
+        }
+
+        /* Assuming your navigation bar's height is 60px */
+        section::before {
+            content: "";
+            display: block;
+            height: 60px;
+            /* Height of your navigation bar */
+            margin: -60px 0 0;
+            /* Negative height of your navigation bar */
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* ... Your Existing CSS ... */
+
+        /* Media Query for Mobile Devices */
+        @media only screen and (max-width: 768px) {
+            nav a {
+                display: block;
+                padding: 10px 0;
+                border-bottom: 1px solid #333;
+                text-align: center;
+            }
+
+            nav a:last-child {
+                border-bottom: none;
+            }
+
+            h1,
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.9em;
+            }
+
+            #hero img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .container section {
+                padding: 15px;
+            }
+        }
+
+        /* ... Your Existing CSS ... */
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            /* To ensure the nav is always on top */
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+            width: 100%;
+        }
+
+        .menu-icon {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+            }
+
+            .nav-links a {
+                padding: 15px;
+                border: none;
+            }
+
+            .menu-icon {
+                display: flex;
+            }
         }
     </style>
 </head>
@@ -205,18 +308,24 @@
 <body>
 
     <nav>
-        <a href="#about">About Me</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#education">Education</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <div id="menuToggle" class="menu-icon">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links">
+            <a href="#about">About Me</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
+
     <header>
         <section id="hero">
             <img src="/img/profile.png" alt="Profile Placeholder">
-            <h1>Hi, I'm Yoana!</h1>
-            <p>Project Coordinator | MSc. in Software Design | Specialising in Software Development</p>
+            <h1>Hi! I'm Yoana</h1>
+            <p id="typed-output"></p>
         </section>
 
     </header>
@@ -321,6 +430,50 @@
             </ul>
         </section>
     </div>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'none' ? 'flex' : 'none';
+        });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('nav a').on('click', function (event) {
+                var target = $(this.getAttribute('href'));
+
+                if (target.length) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - $('nav').height() // This subtracts the height of the navbar
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var textToType = "Project Coordinator | MSc. in Software Design | Specialising in Software Development";
+            var container = document.getElementById("typed-output");
+            var index = 0;
+
+            function typeText() {
+                if (index < textToType.length) {
+                    container.textContent += textToType.charAt(index);
+                    index++;
+                    setTimeout(typeText, 100); // 100ms delay between characters
+                }
+            }
+
+            typeText(); // Start typing when the page loads
+        });
+    </script>
+
+
 
 </body>
 
