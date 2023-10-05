@@ -215,7 +215,7 @@
 
         /* Assuming your navigation bar's height is 60px */
         section::before {
-            content: "";
+            content: """;
             display: block;
             height: 60px;
             /* Height of your navigation bar */
@@ -227,6 +227,10 @@
 
         .hamburger-icon {
             color: white;
+            z-index: 1000;
+            position: absolute;
+            top: 10 px;
+            right: 0 px;
             /* Or any color that contrasts with the background */
         }
 
@@ -315,6 +319,10 @@
             .menu-icon {
                 display: flex;
             }
+        }
+
+        #menuToggle i {
+            color: white;
         }
     </style>
 </head>
@@ -449,8 +457,9 @@
         const navLinks = document.querySelector('.nav-links');
 
         menuToggle.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'none' ? 'flex' : 'none';
+            navLinks.style.display = (navLinks.style.display === 'none' || navLinks.style.display === '') ? 'flex' : 'none';
         });
+
     </script>
 
     <script>
@@ -484,6 +493,25 @@
             }
 
             typeText(); // Start typing when the page loads
+        });
+    </script>
+
+    <script>$('.hamburger-menu a').on('click', function () {
+            $('.hamburger-menu').toggleClass('active'); // 'active' is the class that displays the menu
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#menuToggle").click(function () {
+                $(".nav-links").toggle();
+            });
+
+            $(".nav-links a").click(function () {
+                if ($(window).width() <= 768) {
+                    $(".nav-links").hide();
+                }
+            });
         });
     </script>
 
