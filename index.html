@@ -215,7 +215,7 @@
 
         /* Assuming your navigation bar's height is 60px */
         section::before {
-            content: """;
+            content: " ";
             display: block;
             height: 60px;
             /* Height of your navigation bar */
@@ -230,7 +230,7 @@
             z-index: 1000;
             position: absolute;
             top: 10 px;
-            right: 0 px;
+            right: 10 px;
             /* Or any color that contrasts with the background */
         }
 
@@ -303,6 +303,9 @@
             align-items: center;
             padding: 15px;
             cursor: pointer;
+            position: absolute;
+            left: 10px;
+            top: 10px;
         }
 
         @media only screen and (max-width: 768px) {
@@ -455,10 +458,11 @@
     <script>
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.querySelector('.nav-links');
-
         menuToggle.addEventListener('click', () => {
-            navLinks.style.display = (navLinks.style.display === 'none' || navLinks.style.display === '') ? 'flex' : 'none';
+            navLinks.classList.toggle('active');
         });
+
+  
 
     </script>
 
